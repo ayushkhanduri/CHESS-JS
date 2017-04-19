@@ -1,6 +1,6 @@
 // This is built using modular pattern and prototypal oops concepts
 //this is an IIFE , which is a self executing function and it will help us not to attach our variable to the global object so they can't be accessed in the console
- 
+
 (function(){
   
   function $(element){
@@ -11,6 +11,8 @@
         ele = document.getElementsByClassName(attr);
       else if(ch == '#')
         ele = document.getElementById(attr);
+      else
+        ele = document.getElementsByTagName(attr);
       return ele;
   }
 
@@ -57,11 +59,11 @@
         SCREEN_HEIGHT = window.innerHeight;
 
       }
-
       //  custom $ implementation of jquery ,
       
     return MainGame; // returning the constructor function;
   })();
+  
   //functions of the class MainGameFramework
   MainGameFramework.prototype.updateGameArea = function(){
 
@@ -70,4 +72,5 @@
 
   var canvas = document.getElementById("mainGame");
   var gameObject = new MainGameFramework(canvas);
+  console.log(gameObject);
 })()
