@@ -28,8 +28,8 @@
         //initialize all the variables which would add to the property of the object
         _self= this; // so that we can bind other function's variables 
         initializePrivateConstants();
-        $('#mainGame').style.left = LEFT_OFFSET;
-        $('#mainGame').style.top = TOP_OFFSET;
+        // $('#mainGame').style.left = LEFT_OFFSET;
+        // $('#mainGame').style.top = TOP_OFFSET;
         canvas.width= CONST_WIDTH;
         canvas.height = CONST_HEIGHT;
         _self.canvasContext = canvas.getContext("2d");
@@ -69,8 +69,8 @@
         CONST_WIDTH = (33/100) * window.innerWidth;
         CONST_HEIGHT = CONST_WIDTH;
         NOS = 8; // number of sides 
-        LEFT_OFFSET="33%";
-        TOP_OFFSET="15%";
+        // LEFT_OFFSET="33%";
+        // TOP_OFFSET="15%";
         SCREEN_WIDTH = window.innerWidth;
         SCREEN_HEIGHT = window.innerHeight;
         DIFF_COLORS = ["#FFF","#000"];
