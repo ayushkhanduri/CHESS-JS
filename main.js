@@ -1,8 +1,8 @@
 // This is built using modular pattern and prototypal oops concepts
 //this is an IIFE , which is a self executing function and it will help us not to attach our variable to the global object so they can't be accessed in the console
 
-(function(){
-  
+//(function(){
+
   function $(element){
       var ch = element.charAt(0);
       var ele;
@@ -26,7 +26,7 @@
       // main constructor function to be returned , used for setting up configuration and object
       function MainGame(canvas){
         //initialize all the variables which would add to the property of the object
-        _self= this; // so that we can bind other function's variables 
+        _self= this; // so that we can bind other function's variables
         initializePrivateConstants();
         // $('#mainGame').style.left = LEFT_OFFSET;
         // $('#mainGame').style.top = TOP_OFFSET;
@@ -37,7 +37,7 @@
         drawingBoard();
         //console.log(_self);
       }
-      
+
       // this function is no longer needed
       // function calculateXY(){
       //   var percent = LEFT_OFFSET.substring(0,LEFT_OFFSET.length-1);
@@ -58,36 +58,101 @@
           yCoor = (eachSideLength * i);
           for(var j=0; j<NOS;j++){
             xCoor = (eachSideLength * j);
-            _self.canvasContext.fillStyle= DIFF_COLORS[(i+j)%2];
+            _self.canvasContext.fillStyle= _self.DIFF_COLORS[(i+j)%2];
             _self.canvasContext.fillRect(xCoor,yCoor,eachSideLength,eachSideLength);
           }
         }
       }
 
-      //this is a private function , not accessable from the object 
+      //this is a private function , not accessable from the object
       function initializePrivateConstants(){
-        CONST_WIDTH = (33/100) * window.innerWidth;
+        CONST_WIDTH = parseInt((33/100) * window.innerWidth);
         CONST_HEIGHT = CONST_WIDTH;
-        NOS = 8; // number of sides 
+        NOS = 8; // number of sides
         // LEFT_OFFSET="33%";
         // TOP_OFFSET="15%";
         SCREEN_WIDTH = window.innerWidth;
         SCREEN_HEIGHT = window.innerHeight;
-        DIFF_COLORS = ["#FFF","#000"];
+        _self.DIFF_COLORS = ["#70a2a3","#b1e4b8"];
 
       }
       //  custom $ implementation of jquery ,
-      
+
     return MainGame; // returning the constructor function;
   })();
-  
   //functions of the class MainGameFramework
+
+  MainGameFramework.prototype.returnSquareSize = function(){
+    return canvas.width/8;
+  }
   MainGameFramework.prototype.updateGameArea = function(){
 
   }
 
+  MainGameFramework.prototype.changeBoardColor = function(){
+    //g task
+  }
 
+  // wanting to use factory pattern
+
+  function factoryMethod(color,type,id){// redirects to the type of object that you want to create
+    var obj;
+    if(type === "Pawn"){
+      obj = new Pawn(color,id);
+    }
+    return obj;
+  }
+
+  function inheritance(Child,Parent){
+    Child.prototype = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
+  }
+
+  //teams class
+
+  var SelectTeam= (function(){
+    function SelectedTeam(color){
+      this.color = color;
+    }
+    return SelectedTeam;
+  }());
+  SelectTeam.prototype.returnTeamName = function(){
+    return this.color;
+  }
+
+  // all types of characters
+  var Pawn = (function(){
+    function PawnDesc(color,id){
+      SelectTeam.call(this,color);
+      this.id= id;
+      drawCharacter(PAWN_IMAGE,id);
+    }
+    return PawnDesc;
+  })();
+
+  function drawCharacter(url,id){
+    var imgObject = new Image();
+    imgObject.src = url;
+    var imgSize=gameObject.returnSquareSize();
+    imgObject.onload = function(){
+      gameObject.canvasContext.drawImage(imgObject,(id-1)*imgSize,0,imgSize,imgSize);
+      console.log(imgObject);
+    }
+  }
+  //Draw board
   var canvas = document.getElementById("mainGame");
   var gameObject = new MainGameFramework(canvas);
   console.log(gameObject);
-})()
+
+  //create players
+  inheritance(Pawn,SelectTeam);
+  var TeamWhite =[];
+  var TeamBlack =[];
+  var PAWN_IMAGE = "./pawn.png";
+  for(var i=0;i<8;i++){
+    var whitePawns = factoryMethod("white", "Pawn",TeamWhite.length+1);
+    var blackPawns = factoryMethod("black", "Pawn",TeamWhite.length+1);
+    TeamWhite.push(whitePawns);
+    TeamBlack.push(blackPawns);
+  }
+//})()
